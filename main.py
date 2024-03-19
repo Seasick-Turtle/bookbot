@@ -19,15 +19,34 @@ def get_char_count(text):
 
     return char_dictionary
 
+def sort_on(dict):
+    return dict["total"]
+
+def convert_dict_to_list(char_dictionary):
+    char_list = []
+    for entry in char_dictionary:
+        if (entry.isalpha()):
+            char_list.append({"char": entry, "total": char_dictionary[entry]})
+    char_list.sort(reverse=True, key=sort_on)
+    return char_list
+
+def print_report(book_path, char_dictionary, word_count):
+    char_list = convert_dict_to_list(char_dictionary)
+
+    print(f"--- Begin report of {book_path}")
+    print(f"{word_count} words found in the document")
+    print("")
+
+    for char_entry in char_list:
+        print(f"The character '{char_entry['char']}' was found {char_entry['total']} times")
+
+    print("--- End report ---")
 
 def main():
     book_path = "books/frankenstein.txt"
     text = get_book_text(book_path)
-    print(text)
     word_count = get_word_count(text)
-    print(f"{word_count} words found in the document")
     char_dictionary = get_char_count(text)
-    print(char_dictionary)
-
+    print_report(book_path, char_dictionary, word_count)
 
 main()
